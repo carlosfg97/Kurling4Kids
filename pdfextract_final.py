@@ -229,7 +229,7 @@ class ExtractionToolComplex:
     @staticmethod
     def isListEmpty(inList):
         if isinstance(inList, list): # Is a list
-            return all( map(isListEmpty, inList) )
+            return all( map(ExtractionToolComplex.isListEmpty, inList) )
         return False # Not a list
     
     def getFontInfo(self, text_dict = None):
@@ -454,29 +454,29 @@ class ExtractionToolComplex:
 
 
             #Check if have all required data, if so break out of while True
-            if not any([isListEmpty(value) for values in output.values() for value in values.values()]):
+            if not any([ExtractionToolComplex.isListEmpty(value) for values in output.values() for value in values.values()]):
                 break
 
             #Company name
-            if any([isListEmpty(values) for values in output['CompanyName'].values()]):
+            if any([ExtractionToolComplex.isListEmpty(values) for values in output['CompanyName'].values()]):
                 print("Failed to get data for company name.")
             else:
                 company_name_acquired = True
 
             #Company Address
-            if any([isListEmpty(values) for values in output['CompanyAddress'].values()]):
+            if any([ExtractionToolComplex.isListEmpty(values) for values in output['CompanyAddress'].values()]):
                 print("Failed to get data for company address.")
             else:
                 company_address_acquired = True
 
             #Company Field
-            if any([isListEmpty(values) for values in output['CompanyField'].values()]):
+            if any([ExtractionToolComplex.isListEmpty(values) for values in output['CompanyField'].values()]):
                 print("Failed to get data for company field name.")
             else:
                 company_field_acquired = True
 
             #Company Text
-            if any([isListEmpty(values) for values in output['CompanyText'].values()]):
+            if any([ExtractionToolComplex.isListEmpty(values) for values in output['CompanyText'].values()]):
                 print("Failed to get data for company text.")
             else:
                 company_text_acquired = True
@@ -484,31 +484,31 @@ class ExtractionToolComplex:
             #Foundation Check
             if foundation_check:
                 #Foundation separator
-                if any([isListEmpty(values) for values in output['FoundationSeparator'].values()]):
+                if any([ExtractionToolComplex.isListEmpty(values) for values in output['FoundationSeparator'].values()]):
                     print("Failed to get data for line that indicates the start of a foundation.")
                 else:
                     foundation_separator_acquired = True
 
                 #Foundation name
-                if any([isListEmpty(values) for values in output['FoundationName'].values()]):
+                if any([ExtractionToolComplex.isListEmpty(values) for values in output['FoundationName'].values()]):
                     print("Failed to get data for foundation name.")
                 else:
                     foundation_name_acquired = True
 
                 #Foundation Address
-                if any([isListEmpty(values) for values in output['FoundationAddress'].values()]):
+                if any([ExtractionToolComplex.isListEmpty(values) for values in output['FoundationAddress'].values()]):
                     print("Failed to get data for foundation address.")
                 else:
                     foundation_address_acquired = True
 
                 #Foundation Field
-                if any([isListEmpty(values) for values in output['FoundationField'].values()]):
+                if any([ExtractionToolComplex.isListEmpty(values) for values in output['FoundationField'].values()]):
                     print("Failed to get data for foundation field.")
                 else:
                     foundation_field_acquired = True
 
                 #Foundation Text
-                if any([isListEmpty(values) for values in output['FoundationText'].values()]):
+                if any([iExtractionToolComplex.sListEmpty(values) for values in output['FoundationText'].values()]):
                     print("Failed to get data for foundation text.")
                 else:
                     foundation_text_acquired = True
