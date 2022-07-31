@@ -36,6 +36,20 @@ class ExtractionToolSimple:
                 text_dict.append(page.get_text("dict", sort=False))
         self.text_dict = text_dict
         
+    def inputStringstoRemove(self, banned_strings: list):
+        while True:
+            
+            cont = input("Are there lines that you would like the extraction tool to avoid? Y/N")
+            if cont not in ("Y","N"):
+                print("Please type Y or N")
+                continue
+            if cont == "Y":   
+                banned_strings.append(input("Please copy-paste the line here: "))
+            if cont == "N":
+                break
+                
+        self.banned_strings = banned_strings
+        
     @staticmethod
     def removePuncandSpace(text):
         """
@@ -217,6 +231,20 @@ class ExtractionToolComplex:
             for page in doc:
                 text_dict.append(page.get_text("dict", sort=False))
         self.text_dict = text_dict
+
+    def inputStringstoRemove(self, banned_strings: list):
+        while True:
+            
+            cont = input("Are there lines that you would like the extraction tool to avoid? Y/N")
+            if cont not in ("Y","N"):
+                print("Please type Y or N")
+                continue
+            if cont == "Y":   
+                banned_strings.append(input("Please copy-paste the line here: "))
+            if cont == "N":
+                break
+                
+        self.banned_strings = banned_strings
         
     @staticmethod
     def removePuncandSpace(text):
