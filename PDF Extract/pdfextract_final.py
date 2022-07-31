@@ -698,8 +698,139 @@ class ExtractionToolComplex:
         return org_list, foundation_list
 
 
-# In[ ]:
+# In[1]:
 
 
+class ColumnMerger:
+    
+    def __init__(self, df):
+        self.df = df
+    
+    @staticmethod
+    def similar(a, b):
+        return SequenceMatcher(None, a, b).ratio()
+    
+    #Very inefficient but it probably works :)
+    def similarityColnames(df, threshold, verbose = True):
+        i = 0
+        output = []
+        for j, col1 in enumerate(df.columns):
+            output.append([col1])
+            for col2 in df.columns:
+                if col1 == col2:
+                    continue
 
+                if ColumnMerger.similar(col1, col2) >= threshold:
+                    i += 1
+                    output[j].append(col2)
+                    if verbose:
+                        print(f"{i}) {col1} - {col2}: {str(ColumnMerger.similar(col1,col2))}")
+
+        #Remove 1 element lists and sort alphabetically
+        output = [sorted(nested) for nested in output if len(nested)>1]
+        #Remove duplicates
+        cleaned_output = []
+        for elem in output:
+            if elem not in cleaned_output:
+                cleaned_output.append(elem)
+        
+        self.similarity_scores = cleaned_output
+        
+    #Dumb way of concating similar columns with a threshold: doesn't check if there are values in both columns
+    def concatSimilarStringColumns(df = None, scores = None, threshold = 0.8, drop = True, user_input = True):
+        """ 
+        Uses the output from similarityColnames
+        Can be set to use user input or not. If no input from user, will merge every set of columns using first name in list
+        Can be set to drop merged columns or not
+        ------------
+        NOTE: edge case exists where new name provided by user is same as old name. 
+        ------------
+        """
+        #Use class variables
+        if df is None:
+            df = self.df
+        if scores is None:
+            scores = self.similarity_scores
+        
+        #If user doesn't want to input anything
+        if not user_input:
+            while True:
+                i = 0
+
+                #Merge        
+                #If want to keep first name in list, merge on col of that name
+                df[scores[i][0]] = df[scores[i][0]].fillna('')
+                for name in scores[i]:
+                    if name != scores[i][0]:
+                        df[scores[i][0]] += df[name].fillna('')
+
+
+                #Then need to drop the merged columns
+                if drop:
+                    df = df.drop(scores[i][1:], axis=1)
+
+                #Once done with merge, up counter
+                i+=1
+
+                #Once done with every column, finish
+                if i == len(scores):
+                    break
+
+        #If user_input
+        else:
+            i = 0
+            while True:
+                #Get user input for if they want to merge columns in similarity list or not
+                mergeResponse = input(f"Do you want to merge the columns in this list: {scores[i]}? Y/N\n")
+                if mergeResponse not in ('Y','N'):
+                    print("\nERROR: Please enter one of Y or N")
+                    continue
+
+                #Go to next if merge not desired
+                if mergeResponse == 'N':
+                    i+=1
+
+                #Merge
+                else:
+                    #Get user input for desired name of column
+                    while True:
+                        nameResponse = input("If you want to keep the first name in this list, press 1. Else, press 2.")
+                        if nameResponse not in ('1','2'):
+                            print("\nERROR: Please enter one of 1 or 2")
+                            continue
+                        else:
+                            break
+
+                    #If want to keep first name in list, merge on col of that name
+                    if nameResponse == '1':
+                        df[scores[i][0]] = df[scores[i][0]].fillna('')
+                        for name in scores[i]:
+                            if name != scores[i][0]:
+                                df[scores[i][0]] += df[name].fillna('')
+
+
+                        #Then need to drop the merged columns
+                        if drop:
+                            df = df.drop(scores[i][1:], axis=1)
+                    #If want to input a new name, merge by creating new column with inputed name
+                    else:
+                        newName = input("Input desired name for column.")
+
+                        df[newName] = df[scores[i][0]].fillna('')
+                        for name in scores[i]:
+                            df[newName] += df[name].fillna('')
+
+                        #Then need to drop the merged columns
+                        if drop:
+                            df = df.drop(scores[i], axis=1)
+
+
+                    #Once done with merge, up counter
+                    i+=1
+
+                #Once done with every column, finish
+                if i == len(scores):
+                        break
+
+        return df
 
