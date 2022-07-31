@@ -231,7 +231,7 @@ class ExtractionToolComplex:
             return all( map(isListEmpty, inList) )
         return False # Not a list
     
-    def getFontInfo(text_dict):
+    def getFontInfo(self.text_dict):
     
         foundation_present = input("Are there any charitable foundations present in your document? Y/N")    
 
@@ -511,10 +511,11 @@ class ExtractionToolComplex:
 
             print('\n')   
             print(output)
-
+            
+        self.fontinfo = output
         return output
 
-    def extractTextFromTextDict(text_dict, bannedStrings):
+    def extractTextFromTextDict(self.text_dict, bannedStrings):
     
         output_list = []
         for count_page, page in enumerate(text_dict):
@@ -535,9 +536,9 @@ class ExtractionToolComplex:
                                            'size' : float(line['size']),
                                            'font' : line['font'],
                                            'line_number' : count_line_list})
-        return output_list
+        self.extracted_text = output_list
 
-    def convertExtracttoTable(extracted_text, fontsize_data):
+    def convertExtracttoTable(extracted_text = self.extracted_text, fontsize_data = self.fontinfo):
 
         #Initialize needed vars
         org_list = []
