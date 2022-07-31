@@ -785,6 +785,10 @@ class ColumnMerger:
         if scores is None:
             scores = self.similarity_scores
         
+        #If there are no scores, immediately return the df
+        if len(scores) ==  0:
+            return df
+        
         #If user doesn't want to input anything
         if not user_input:
             while True:
