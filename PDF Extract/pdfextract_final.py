@@ -741,7 +741,10 @@ class ColumnMerger:
         return SequenceMatcher(None, a, b).ratio()
     
     #Very inefficient but it probably works :)
-    def similarityColnames(df, threshold, verbose = True):
+    def similarityColnames(self, threshold, verbose = True):
+        
+        df = self.df
+        
         i = 0
         output = []
         for j, col1 in enumerate(df.columns):
