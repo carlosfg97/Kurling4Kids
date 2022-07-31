@@ -58,14 +58,14 @@ class ExtractionToolSimple:
         """
         return text.translate(str.maketrans('', '', string.punctuation)).strip()
     
-    def extractFromTextDict(self, bannedStrings):
+    def extractFromTextDict(self):
         ##
         # Get an idea of looping through text
         # For every page
         # Extract additional information about the text as well: font and font size
         # Store in list of dictionaries
         ##
-
+        bannedStrings = self.banned_strings
         org_list = []
         foundation_list = []
         org_id = -1
@@ -546,12 +546,14 @@ class ExtractionToolComplex:
             
         self.fontinfo = output
 
-    def extractTextFromTextDict(self, bannedStrings, text_dict = None):
+    def extractTextFromTextDict(self, text_dict = None):
         
         if text_dict is None:
             text_dict = self.text_dict
             
         output_list = []
+        bannedStrings = banned_string
+        
         for count_page, page in enumerate(text_dict):
             for count_block_list, block_list in enumerate(page["blocks"]):
                 for count_line_list, line_list in enumerate(block_list["lines"]):
