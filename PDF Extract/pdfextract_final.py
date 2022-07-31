@@ -770,7 +770,7 @@ class ColumnMerger:
         self.similarity_scores = cleaned_output
         
     #Dumb way of concating similar columns with a threshold: doesn't check if there are values in both columns
-    def concatSimilarStringColumns(df = None, scores = None, threshold = 0.8, drop = True, user_input = True):
+    def concatSimilarStringColumns(self, df = None, scores = None, threshold = 0.8, drop = True, user_input = True):
         """ 
         Uses the output from similarityColnames
         Can be set to use user input or not. If no input from user, will merge every set of columns using first name in list
