@@ -198,7 +198,7 @@ class ExtractionToolSimple:
         return org_list, foundation_list
 
 
-# In[3]:
+# In[9]:
 
 
 class ExtractionToolComplex:
@@ -231,8 +231,11 @@ class ExtractionToolComplex:
             return all( map(isListEmpty, inList) )
         return False # Not a list
     
-    def getFontInfo(self.text_dict):
-    
+    def getFontInfo(self, text_dict = None):
+        
+        if text_dict is None:
+            text_dict = self.text_dict
+            
         foundation_present = input("Are there any charitable foundations present in your document? Y/N")    
 
         if foundation_present == 'Y':
@@ -515,8 +518,11 @@ class ExtractionToolComplex:
         self.fontinfo = output
         return output
 
-    def extractTextFromTextDict(self.text_dict, bannedStrings):
-    
+    def extractTextFromTextDict(self, bannedStrings, text_dict = None):
+        
+        if text_dict is None:
+            text_dict = self.text_dict
+            
         output_list = []
         for count_page, page in enumerate(text_dict):
             for count_block_list, block_list in enumerate(page["blocks"]):
@@ -538,8 +544,13 @@ class ExtractionToolComplex:
                                            'line_number' : count_line_list})
         self.extracted_text = output_list
 
-    def convertExtracttoTable(extracted_text = self.extracted_text, fontsize_data = self.fontinfo):
-
+    def convertExtracttoTable(self, extracted_text = None, fontsize_data = None):
+        
+        if extracted_text is None:
+            extracted_text = self.extracted_text
+        if fontsize_data is None:
+            fontsize_data = self.fontinfo
+            
         #Initialize needed vars
         org_list = []
         foundation_list = []
@@ -685,4 +696,10 @@ class ExtractionToolComplex:
                         foundation_list[foundation_id][list( foundation_list[foundation_id])[-1]] += line['text']
 
         return org_list, foundation_list
+
+
+# In[ ]:
+
+
+
 
