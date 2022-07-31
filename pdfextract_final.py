@@ -633,7 +633,7 @@ class ExtractionToolComplex:
             if (
                 (line['font'] in fontsize_data['FoundationSeparator']['font']) & \
                 (round(line['size']) in [round(elem) for elem in fontsize_data['FoundationSeparator']['size']]) & \
-                (any([ExtractionToolComplex.removePuncandSpace(line['text']) in ExtractionToolComplex.removePuncandSpace(elem) for elem in fontsize_data['FoundationSeparator']['text']])) or (any([removePuncandSpace(elem) in removePuncandSpace(line['text']) for elem in fontsize_data['FoundationSeparator']['text']]))
+                (any([ExtractionToolComplex.removePuncandSpace(line['text']) in ExtractionToolComplex.removePuncandSpace(elem) for elem in fontsize_data['FoundationSeparator']['text']])) or (any([ExtractionToolComplex.removePuncandSpace(elem) in ExtractionToolComplex.removePuncandSpace(line['text']) for elem in fontsize_data['FoundationSeparator']['text']]))
                ):
                 charitable_foundation = True
 
