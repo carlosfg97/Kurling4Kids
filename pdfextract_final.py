@@ -516,7 +516,6 @@ class ExtractionToolComplex:
             print(output)
             
         self.fontinfo = output
-        return output
 
     def extractTextFromTextDict(self, bannedStrings, text_dict = None):
         
